@@ -1,0 +1,49 @@
+.message {
+  display: flex;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.message.human {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin: 0 0.5rem;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.message.ai .message-content {
+  background-color: #f1f0f0;
+  border-top-left-radius: 0;
+}
+
+.message.human .message-content {
+  background-color: #3498db;
+  color: white;
+  border-top-right-radius: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
