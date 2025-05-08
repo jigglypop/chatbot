@@ -33,7 +33,7 @@ pip install -r requirements.txt
 
 2. 환경 변수 설정:
    - `.env` 파일을 만들고 OpenAI API 키 설정:
-   
+
 ```
 OPENAI_API_KEY=your_api_key_here
 ```
@@ -70,4 +70,4 @@ npm start
 
 - **백엔드**: FastAPI, LangChain, SSE
 - **프론트엔드**: React, CSS
-- **API**: OpenAI Chat API 
+- **API**: OpenAI Chat API
