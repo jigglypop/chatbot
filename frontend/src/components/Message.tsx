@@ -1,4 +1,3 @@
-import React from 'react';
 import './Message.css';
 
 const Message = ({ message }) => {
@@ -8,7 +7,7 @@ const Message = ({ message }) => {
   return (
     <div className={`message ${isAi ? 'ai' : 'human'}`}>
       <div className="message-avatar">
-        {isAi ? '🤖' : '👤'}
+        {isAi ? 'AI' : '나'}
       </div>
       <div className="message-content">
         <p>{content}</p>
