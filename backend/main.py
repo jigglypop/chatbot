@@ -1,22 +1,24 @@
 import os
-from typing import List
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from sse_starlette.sse import EventSourceResponse
 from fastapi.responses import JSONResponse
-
 from chat import get_chat_response
+from uuid import uuid4
 
-# 환경 변수 로드
 load_dotenv()
+unique_id = uuid4().hex[:8]
+os.environ["LANGCHAIN_TRACING_V2"] = os.getenv("LANGCHAIN_TRACING_V2", "true")
+os.environ["LANGCHAIN_PROJECT"]   = f"{os.getenv('LANGCHAIN_PROJECT_PREFIX', 'LangGraph Tutorial - ')}{unique_id}"
+os.environ["LANGCHAIN_ENDPOINT"]  = os.getenv("LANGCHAIN_ENDPOINT", "https://api.smith.langchain.com")
+os.environ["LANGCHAIN_API_KEY"]   = os.getenv("LANGCHAIN_API_KEY", "")
+os.environ["OPENAI_API_KEY"]      = os.getenv("OPENAI_API_KEY", "")
 
 app = FastAPI()
-
-# CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 실제 배포 환경에서는 구체적인 오리진을 설정하세요
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,19 +30,9 @@ async def root():
 
 @app.post("/chat")
 async def chat(request: Request):
-    """
-    채팅 API 엔드포인트
-    """
     data = await request.json()
-    message = data.get("message", "")
+    message      = data.get("message", "")
     chat_history = data.get("chat_history", [])
-    
-    if not message:
-        return JSONResponse(
-            status_code=400,
-            content={"error": "message is required"}
-        )
-    
     return EventSourceResponse(
         get_chat_response(message, chat_history),
         media_type="text/event-stream"
